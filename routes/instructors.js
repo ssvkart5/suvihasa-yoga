@@ -1,5 +1,4 @@
 // routes/instructors.js
-
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
@@ -11,6 +10,8 @@ const path = require('path');
 const Instructor = require('../models/Instructor');
 const auth = require('../middleware/auth'); // Authentication middleware
 const adminAuth = require('../middleware/adminAuth'); // Admin authentication middleware
+// const validationMiddleware = require('../middleware/validation');
+const { createInstructor } = require('../controllers/instructorController');
 const { validateInstructor, validateLogin, validatePasswordReset } = require('../middleware/validation');
 
 // Configure multer for file uploads (profile pictures)
