@@ -2,7 +2,7 @@
 FROM node:22
 
 # Set working directory inside the container
-WORKDIR /home/site/wwwroot/server/index.js
+WORKDIR /home/site/wwwroot
 
 # Copy package files and install dependencies first (for caching)
 COPY package*.json ./
@@ -15,4 +15,4 @@ COPY . .
 EXPOSE 8080
 
 # Start the server (adjust if your entry point is different)
-CMD ["node", "index.js"]
+CMD ["node", "server/index.js"]
