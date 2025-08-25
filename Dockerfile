@@ -1,18 +1,18 @@
-# Use Node.js LTS base image
+# Use official Node.js image
 FROM node:22
 
-# Set working directory to the root of your app
+# Create app directory
 WORKDIR /home/site/wwwroot
 
 # Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install
 
-# Copy the rest of your app
+# Copy rest of the app
 COPY . .
 
-# Expose the port Azure expects
+# Expose port
 EXPOSE 8080
 
-# Start the server (adjust if your entry point is different)
+# Start the app
 CMD ["node", "server.js"]
