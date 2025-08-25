@@ -15,4 +15,4 @@ COPY . .
 EXPOSE 8080
 
 # Start the server (adjust if your entry point is different)
-CMD ["node", "server/index.js"]
+CMD ["node", "server.js"]
