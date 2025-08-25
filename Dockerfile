@@ -1,10 +1,10 @@
 # Use Node.js LTS base image
 FROM node:22
 
-# Set working directory inside the container
+# Set working directory to the root of your app
 WORKDIR /home/site/wwwroot
 
-# Copy package files and install dependencies first (for caching)
+# Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install
 

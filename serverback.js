@@ -36,6 +36,6 @@ app.get('/', async (req, res) => {
   res.render('index', { classes, instructors, testimonials });
 });
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 8080, () => {
   console.log('Server running...');
 });
