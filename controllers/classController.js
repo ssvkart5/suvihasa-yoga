@@ -8,3 +8,7 @@ exports.getAllClasses = async (req, res) => {
     res.status(500).send('Error fetching classes');
   }
 };
+module.exports = {
+  getAllClasses,
+  // other methods...
+};
