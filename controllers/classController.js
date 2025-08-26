@@ -1,6 +1,6 @@
 const Class = require('../models/Class');
 
-exports.getAllClasses = async (req, res) => {
+const getAllClasses = async (req, res) => {
   try {
     const classes = await Class.find().populate('instructor');
     res.json(classes);
@@ -8,6 +8,7 @@ exports.getAllClasses = async (req, res) => {
     res.status(500).send('Error fetching classes');
   }
 };
+
 module.exports = {
   getAllClasses,
   // other methods...
