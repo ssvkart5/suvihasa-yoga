@@ -4,7 +4,13 @@ exports.validateInstructor = (req, res, next) => {
 };
 
 exports.validateLogin = (req, res, next) => {
-  // Example login validation
+  // Basic login validation
+  if (!req.body.username || !req.body.password) {
+    return res.status(400).json({
+      success: false,
+      message: 'Username and password are required'
+    });
+  }
   next();
 };
 

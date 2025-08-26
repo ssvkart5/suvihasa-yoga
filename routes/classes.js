@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const YogaClass = require('../models/Class');
+const auth = require('../middleware/auth');
 
 // Get all classes
 router.get('/', async (req, res) => {
   try {
-    const classes = await YogaClass.getAll();
+    const classes = await YogaClass.find().populate('instructor');
     res.json(classes);
   } catch (error) {
     console.error('Error fetching classes:', error);
@@ -16,7 +17,7 @@ router.get('/', async (req, res) => {
 // Get single class
 router.get('/:id', async (req, res) => {
   try {
-    const yogaClass = await YogaClass.getById(req.params.id);
+    const yogaClass = await YogaClass.findById(req.params.id).populate('instructor');
     if (!yogaClass) {
       return res.status(404).json({ error: 'Class not found' });
     }
@@ -27,22 +28,33 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Create new class
-router.post('/', async (req, res) => {
+// Create new class (protected)
+router.post('/', auth, async (req, res) => {
   try {
-    const { name, instructor, schedule, duration, capacity, description } = req.body;
-    
-    if (!name || !instructor || !schedule) {
+    const {
+      title,
+      instructor,
+      schedule,
+      duration,
+      capacity,
+      style,
+      difficulty,
+      videoUrl
+    } = req.body;
+
+    if (!title || !instructor || !schedule) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
     const newClass = await YogaClass.create({
-      name,
+      title,
       instructor,
       schedule,
       duration: duration || 60,
       capacity: capacity || 20,
-      description: description || ''
+      style,
+      difficulty,
+      videoUrl
     });
 
     res.status(201).json(newClass);
@@ -53,9 +65,13 @@ router.post('/', async (req, res) => {
 });
 
 // Update class
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
   try {
-    const updatedClass = await YogaClass.update(req.params.id, req.body);
+    const updatedClass = await YogaClass.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
     res.json(updatedClass);
   } catch (error) {
     console.error('Error updating class:', error);
@@ -64,21 +80,14 @@ router.put('/:id', async (req, res) => {
 });
 
 // Delete class
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   try {
-    await YogaClass.delete(req.params.id);
+    await YogaClass.findByIdAndDelete(req.params.id);
     res.status(204).send();
   } catch (error) {
     console.error('Error deleting class:', error);
     res.status(500).json({ error: 'Failed to delete class' });
   }
 });
-// Middleware for authentication (example)
-const auth = require('../middleware/auth');
-
-router.post('/create', auth, (req, res) => {
-  // Only authenticated users can create classes
-});
-
 
 module.exports = router;
