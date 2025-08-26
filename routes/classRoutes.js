@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const classController = require('../controllers/classController');
 const auth = require('../middleware/auth'); // Optional: protect routes
+const { getAllClasses } = require('../controllers/classController');
+
 
 // Get all classes
 router.get('/classes', classController.getAllClasses);
