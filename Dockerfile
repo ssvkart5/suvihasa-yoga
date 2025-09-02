@@ -12,7 +12,7 @@ RUN npm install --production
 COPY . .
 
 # Expose the port Azure expects
-EXPOSE 8080
+EXPOSE 3000
 
 # Start the app
 CMD ["node", "server.js"]
