@@ -47,12 +47,23 @@ yoga-app/
 │   ├── classes.js
 │   ├── schedules.js
 │   ├── poses.js
+│   ├── styles.js
 │   ├── instructors.js
+│   └── media.js
 ├── models/
-├── utils/
+│   ├── User.js
+│   ├── Class.js
+│   ├── Schedule.js
+│   ├── Pose.js
+│   ├── Style.js
+│   ├── Instructor.js
 ├── middleware/
-├── config/
+│   └── auth.js
+├── utils/
+│   └── blobUpload.js
+├── .env
 └── package.json
+
 b. Install Dependencies
 # bash
     npm init -y
@@ -94,7 +105,7 @@ module.exports = client;
 
 8. Upload Images & Videos
     Use multer to handle uploads and Azure Blob SDK to store files:
-    
+
         const { BlobServiceClient } = require('@azure/storage-blob');
         const blobServiceClient = BlobServiceClient.fromConnectionString(process.env.AZURE_STORAGE_CONNECTION_STRING);
 
