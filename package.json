@@ -12,7 +12,9 @@
   },
   "dependencies": {
     "@azure/cosmos": "^4.5.0",
+    "@azure/storage-blob": "^12.28.0",
     "azure-storage": "^2.10.3",
+    "bcrypt": "^6.0.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.6.1",

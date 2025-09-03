@@ -1,10 +1,9 @@
-// routes/classes.js
 const express = require('express');
 const router = express.Router();
 const Class = require('../models/Class');
 const auth = require('../middleware/auth');
 
-// Create a class (Instructor/Admin only)
+// 📌 Create a class (Instructor/Admin only)
 router.post('/', auth, async (req, res) => {
   try {
     const { title, description, instructorId, style, schedule } = req.body;
@@ -21,7 +20,7 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
-// Get all classes
+// 📌 Get all classes
 router.get('/', async (req, res) => {
   try {
     const classes = await Class.find().populate('instructorId', 'name');
@@ -31,7 +30,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Get a single class by ID
+// 📌 Get a single class by ID
 router.get('/:id', async (req, res) => {
   try {
     const yogaClass = await Class.findById(req.params.id).populate('instructorId', 'name');
@@ -42,7 +41,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Update a class (Instructor/Admin only)
+// 📌 Update a class (Instructor/Admin only)
 router.put('/:id', auth, async (req, res) => {
   try {
     const yogaClass = await Class.findById(req.params.id);
@@ -53,4 +52,28 @@ router.put('/:id', auth, async (req, res) => {
     }
 
     Object.assign(yogaClass, req.body);
-    await yogaClass
+    await yogaClass.save();
+    res.json({ message: 'Class updated successfully', yogaClass });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update class', details: err.message });
+  }
+});
+
+// 🗑️ Delete a class (Admin only)
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ error: 'Only admins can delete classes' });
+    }
+
+    const yogaClass = await Class.findByIdAndDelete(req.params.id);
+    if (!yogaClass) return res.status(404).json({ error: 'Class not found' });
+
+    res.json({ message: 'Class deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete class', details: err.message });
+  }
+});
+
+// ✅ Export the router
+module.exports = router;

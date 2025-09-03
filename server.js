@@ -2,6 +2,20 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const connectDB = require('./config/db');
+const { APP_NAME, PORT, DB, ROLES } = require('./config/constants');
+const env = require('./config/env');
+
+console.log(`🌱 Environment: ${env.nodeEnv}`);
+console.log(`🔗 Connecting to DB: ${env.mongoUri}`);
+
+
+console.log(`🚀 Starting ${APP_NAME} on port ${PORT}`);
+mongoose.connect(DB.URI, DB.OPTIONS);
+
+
+connectDB(); // Initialize DB connection
+
 
 // Import your routes
 const authRoutes = require('./routes/auth');
@@ -9,6 +23,8 @@ const instructorRoutes = require('./routes/instructors');
 const classRoutes = require('./routes/classes');
 const poseRoutes = require('./routes/poses');
 const mediaRoutes = require('./routes/media');
+
+
 
 const app = express();
 
@@ -32,7 +48,7 @@ app.listen(port, () => {
 
 
 // MongoDB connection
-mongoose.connect(process.env.DB_URI, {
+mongoose.connect(process.env.DB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
