@@ -33,7 +33,6 @@ app.use('/api/poses', poseRoutes);
 app.use('/api/styles', styleRoutes);
 app.use('/api/instructors', instructorRoutes);
 app.use('/api/media', mediaRoutes);
-app.use('/api/users', require('./routes/users'));
 app.use('/api/classes', require('./routes/classes'));
 app.use('/api/schedules', require('./routes/schedules'));
 app.use('/api/poses', require('./routes/poses'));

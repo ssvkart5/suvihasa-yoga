@@ -2,7 +2,7 @@
 FROM node:18-alpine
 
 # Set working directory
-WORKDIR /app/server.js
+WORKDIR /app
 
 # Copy package files and install dependencies
 COPY package*.json ./
