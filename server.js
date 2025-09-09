@@ -33,13 +33,16 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/instructors', instructorRoutes);
-app.use('/api/classes', classRoutes);
-app.use('/api/poses', poseRoutes);
-app.use('/api/media', mediaRoutes);
+app.use('/suvihasa-yoga/auth', authRoutes);
+app.use('/suvihasa-yoga/instructors', instructorRoutes);
+app.use('/suvihasa-yoga/classes', classRoutes);
+app.use('/suvihasa-yoga/poses', poseRoutes);
+app.use('/suvihasa-yoga/media', mediaRoutes);
 
 // Health check
+app.get('/', (req, res) => {
+  res.send('🧘‍♂️ Welcome to Suvihasa Yoga API');
+});
 app.get('/health', (req, res) => res.send('🧘‍♀️ Suvihasa Yoga backend is healthy'));
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

@@ -26,19 +26,19 @@ const styleRoutes = require('./routes/styles');
 const instructorRoutes = require('./routes/instructors');
 const mediaRoutes = require('./routes/media');
 
-app.use('/api/users', userRoutes);
-app.use('/api/classes', classRoutes);
-app.use('/api/schedules', scheduleRoutes);
-app.use('/api/poses', poseRoutes);
-app.use('/api/styles', styleRoutes);
-app.use('/api/instructors', instructorRoutes);
-app.use('/api/media', mediaRoutes);
-app.use('/api/classes', require('./routes/classes'));
-app.use('/api/schedules', require('./routes/schedules'));
-app.use('/api/poses', require('./routes/poses'));
-app.use('/api/styles', require('./routes/styles'));
-app.use('/api/instructors', require('./routes/instructors'));
-app.use('/api/media', require('./routes/media'));
+app.use('/suvihasa-yoga/users', userRoutes);
+app.use('/suvihasa-yoga/classes', classRoutes);
+app.use('/suvihasa-yoga/schedules', scheduleRoutes);
+app.use('/suvihasa-yoga/poses', poseRoutes);
+app.use('/suvihasa-yoga/styles', styleRoutes);
+app.use('/suvihasa-yoga/instructors', instructorRoutes);
+app.use('/suvihasa-yoga/media', mediaRoutes);
+app.use('/suvihasa-yoga/classes', require('./routes/classes'));
+app.use('/suvihasa-yoga/schedules', require('./routes/schedules'));
+app.use('/suvihasa-yoga/poses', require('./routes/poses'));
+app.use('/suvihasa-yoga/styles', require('./routes/styles'));
+app.use('/suvihasa-yoga/instructors', require('./routes/instructors'));
+app.use('/suvihasa-yoga/media', require('./routes/media'));
 
 
 

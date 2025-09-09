@@ -2,7 +2,7 @@
 FROM node:18-alpine
 
 # Set working directory
-WORKDIR /app
+WORKDIR /suvihasa-yoga
 
 # Copy package files and install dependencies
 COPY package*.json ./
