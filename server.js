@@ -23,6 +23,9 @@ const instructorRoutes = require('./routes/instructors');
 const classRoutes = require('./routes/classes');
 const poseRoutes = require('./routes/poses');
 const mediaRoutes = require('./routes/media');
+const learningRoutes = require('./routes/learnings');
+const bookingRoutes = require('./routes/bookings');
+
 
 
 
