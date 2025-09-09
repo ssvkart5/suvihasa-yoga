@@ -29,4 +29,34 @@ router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
-    if (!user) return res.status(404).json({ message: 'User not fou
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) return res.status(401).json({ message: 'Invalid credentials' });
+
+    const token = jwt.sign(
+      { id: user._id, role: user.role },
+      JWT_SECRET,
+      { expiresIn: '1d' }
+    );
+
+    res.status(200).json({
+      token,
+      user: { username: user.username, email: user.email, role: user.role }
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
+// 🧪 Browser-friendly GET routes (for quick testing/debugging)
+router.get('/register', (req, res) => {
+  res.send('This is the REGISTER endpoint. Please use POST with JSON body.');
+});
+
+router.get('/login', (req, res) => {
+  res.send('This is the LOGIN endpoint. Please use POST with JSON body.');
+});
+
+module.exports = router;
