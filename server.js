@@ -41,6 +41,9 @@ app.use('/suvihasa-yoga/instructors', instructorRoutes);
 app.use('/suvihasa-yoga/classes', classRoutes);
 app.use('/suvihasa-yoga/poses', poseRoutes);
 app.use('/suvihasa-yoga/media', mediaRoutes);
+app.use('/suvihasa-yoga/learnings', learningRoutes);
+app.use('/suvihasa-yoga/bookings', bookingRoutes);
+
 
 // Health check
 app.get('/', (req, res) => {
