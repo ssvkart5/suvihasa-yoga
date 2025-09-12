@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Learning = require('../models/Learning');
-const { verifyToken } = require('../middleware/auth');
+const verifyToken = require('../middleware/auth'); // ✅ direct import
 
 // GET all learning modules
 router.get('/', async (req, res) => {
