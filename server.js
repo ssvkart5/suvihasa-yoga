@@ -3,63 +3,38 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const connectDB = require('./config/db');
-const { APP_NAME, PORT, DB, ROLES } = require('./config/constants');
+const { APP_NAME, PORT } = require('./config/constants');
 const env = require('./config/env');
 
+// Log environment info
 console.log(`🌱 Environment: ${env.nodeEnv}`);
 console.log(`🔗 Connecting to DB: ${env.mongoUri}`);
-
-
 console.log(`🚀 Starting ${APP_NAME} on port ${PORT}`);
-mongoose.connect(DB.URI, DB.OPTIONS);
 
+// Initialize DB connection
+connectDB()
+  .then(() => console.log('✅ Connected to MongoDB'))
+  .catch(err => console.error('❌ MongoDB connection error:', err));
 
-connectDB(); // Initialize DB connection
-
-
-// Import your routes
-const authRoutes = require('./routes/auth');
-const instructorRoutes = require('./routes/instructors');
-const classRoutes = require('./routes/classes');
-const poseRoutes = require('./routes/poses');
-const mediaRoutes = require('./routes/media');
-const learningRoutes = require('./routes/learnings');
-const bookingRoutes = require('./routes/bookings');
-
-
-
-
+// Express app setup
 const app = express();
-
-// Middleware
 app.use(cors());
 app.use(express.json());
 
 // Routes
-app.use('/suvihasa-yoga/auth', authRoutes);
-app.use('/suvihasa-yoga/instructors', instructorRoutes);
-app.use('/suvihasa-yoga/classes', classRoutes);
-app.use('/suvihasa-yoga/poses', poseRoutes);
-app.use('/suvihasa-yoga/media', mediaRoutes);
-app.use('/suvihasa-yoga/learnings', learningRoutes);
-app.use('/suvihasa-yoga/bookings', bookingRoutes);
-
+app.use('/suvihasa-yoga/auth', require('./routes/auth'));
+app.use('/suvihasa-yoga/instructors', require('./routes/instructors'));
+app.use('/suvihasa-yoga/classes', require('./routes/classes'));
+app.use('/suvihasa-yoga/poses', require('./routes/poses'));
+app.use('/suvihasa-yoga/media', require('./routes/media'));
+app.use('/suvihasa-yoga/learnings', require('./routes/learnings'));
+app.use('/suvihasa-yoga/bookings', require('./routes/bookings'));
 
 // Health check
-app.get('/', (req, res) => {
-  res.send('🧘‍♂️ Welcome to Suvihasa Yoga API');
-});
+app.get('/', (req, res) => res.send('🧘‍♂️ Welcome to Suvihasa Yoga API'));
 app.get('/health', (req, res) => res.send('🧘‍♀️ Suvihasa Yoga backend is healthy'));
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+
+// Start server
+app.listen(PORT || 3000, () => {
+  console.log(`🚀 Server running on port ${PORT || 3000}`);
 });
-
-
-// MongoDB connection
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => console.log('✅ Connected to MongoDB'))
-.catch(err => console.error('❌ MongoDB connection error:', err));

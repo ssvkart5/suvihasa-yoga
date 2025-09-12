@@ -2,11 +2,9 @@
 const mongoose = require('mongoose');
 
 const instructorSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  name: String,
   bio: String,
-  specialties: [String], // e.g., ['Hatha', 'Vinyasa']
-  experienceYears: Number,
-  profileImage: String,
-}, { timestamps: true });
+  imageUrl: String
+});
 
 module.exports = mongoose.model('Instructor', instructorSchema);
