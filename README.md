@@ -126,3 +126,43 @@ a. Zip deploy or GitHub Actions
     Use Postman or Swagger for API testing
     Enable App Insights for logging and performance
     Set up alerts for errors or downtime
+
+# create a plan
+az appservice plan create \
+  --name suvihasa-plan \
+  --resource-group yoga-rg \
+  --sku B1 \
+  --is-linux
+
+# create web app
+az webapp create --name suvihasa-yoga --resource-group yoga-rg --plan suvihasa-plan--runtime "NODE|22-lts"
+# create cosmosdb
+az cosmosdb create --name suvihasa-server --resource-group yoga-rg --kind MongoDB
+# Create blob storage
+az storage account create --name suvihasastg --resource-group yoga-rg --sku Standard_LRS
+# configure app settings
+az webapp config appsettings set --name suvihasa-yoga --resource-group yoga-rg --settings AZURE_COSMOS_CONNECTIONSTRING="<your-cosmos-uri>" AZURE_STORAGE_CONNECTION_STRING="<your-blob-connection>" WEBSITES_PORT=8080
+## test locally
+MONGO_URI=<your-cosmos-uri>
+AZURE_STORAGE_CONNECTION_STRING=<your-blob-connection>
+PORT=8080
+# run
+npm install
+node app.js
+
+## Trouble shooting if mongoose error
+Option 1 – Downgrade Mongoose / MongoDB Driver
+
+You need a version that still supports MongoDB 3.6 (wire version 6).
+
+Uninstall current mongoose:
+
+npm uninstall mongoose
+
+
+Install a compatible version (≤ 5.13.x works with Mongo 3.6):
+
+npm install mongoose@5.13.20
+
+
+This version still supports Cosmos DB’s wire protocol.

@@ -9,10 +9,20 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Logging (optional but helpful)
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
+
 // MongoDB (Cosmos DB with Mongo API)
-mongoose.connect(process.env.MONGO_URI, {
+mongoose.connect(process.env.MONGO_URI || process.env.AZURE_COSMOS_CONNECTIONSTRING, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  tls: true,
+  tlsInsecure: false,
+  retryWrites: false,
+  serverSelectionTimeoutMS: 5000
 })
 .then(() => console.log('✅ Connected to Cosmos DB (Mongo API)'))
 .catch(err => console.error('❌ DB connection error:', err));
@@ -33,15 +43,11 @@ app.use('/suvihasa-yoga/poses', poseRoutes);
 app.use('/suvihasa-yoga/styles', styleRoutes);
 app.use('/suvihasa-yoga/instructors', instructorRoutes);
 app.use('/suvihasa-yoga/media', mediaRoutes);
-app.use('/suvihasa-yoga/classes', require('./routes/classes'));
-app.use('/suvihasa-yoga/schedules', require('./routes/schedules'));
-app.use('/suvihasa-yoga/poses', require('./routes/poses'));
-app.use('/suvihasa-yoga/styles', require('./routes/styles'));
-app.use('/suvihasa-yoga/instructors', require('./routes/instructors'));
-app.use('/suvihasa-yoga/media', require('./routes/media'));
 
-
-
+// Health check route
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'OK', timestamp: new Date() });
+});
 
 // Root
 app.get('/', (req, res) => {
@@ -49,7 +55,7 @@ app.get('/', (req, res) => {
 });
 
 // Start Server
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || process.env.WEBSITES_PORT || 8080;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
